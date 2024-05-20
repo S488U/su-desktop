@@ -1,0 +1,59 @@
+{
+  "name": "duploader-desktop-app",
+  "productName": "SU Duploader",
+  "version": "1.0.0",
+  "description": "Duploader Desktop App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "author": "Shahabas",
+  "license": "MIT",
+  "dependencies": {
+    "resize-img": "^2.0.0",
+    "toastify-js": "^1.12.0"
+  },
+  "devDependencies": {
+    "electron": "^30.0.6",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.duploader.suduploader",
+    "productName": "SU Duploader",
+    "directories": {
+      "output": "dist" 
+    },
+    "files": [
+      "main.js",
+      {
+        "from": "assets",
+        "to": "assets",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "icon": "assets/linux/icon_512x512.png"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/win/icon.ico"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "assets/mac/icon.icns"
+    }
+  }
+}
