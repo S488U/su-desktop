@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Available</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+        }
+        h2 {
+            color: #333;
+        }
+        p, small {
+            color: #666;
+        }
+        .button {
+            background-color: #000;
+            border: 1px solid black;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            transition: all 300ms ease-in;
+        }
+        .button:hover {
+            background-color: #fff;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update Available</h2>
+        <p>A new version of the application is available. Do you want to update now?</p>
+        <small>If it’s not possible, uninstall and download from the <a id="direct-link" href="#">link https://dunite/app</a></small>
+        <br>
+        <button class="button" id="update-button">Update</button>
+        <button class="button" id="later-button">Later</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const { shell, ipcRenderer, remote } = require('electron');
+
+            document.getElementById('update-button').addEventListener('click', () => {
+                console.log('Update button clicked');
+                ipcRenderer.send('update-app');
+            });
+
+            document.getElementById('later-button').addEventListener('click', () => {
+                console.log('Later button clicked');
+                ipcRenderer.send('update-later');
+                const window = remote.getCurrentWindow();
+                window.close();
+            });
+
+            document.getElementById('direct-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                shell.openExternal('https://dunite/app');
+            });
+
+            ipcRenderer.on('update-status', (event, message) => {
+                alert(message);
+            });
+        });
+    </script>
+</body>
+</html>

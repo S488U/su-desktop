@@ -1,8 +1,8 @@
 {
-  "name": "duploader-desktop-app",
-  "productName": "SU Duploader",
-  "version": "1.0.0",
-  "description": "Duploader Desktop App",
+  "name": "dunite-desktop-app",
+  "productName": "SU Dunite",
+  "version": "1.2.0",
+  "description": "Dunite Desktop App",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -11,18 +11,21 @@
   "author": "Shahabas",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.7.7",
+    "electron-log": "^5.2.0",
+    "electron-updater": "^6.3.9",
     "resize-img": "^2.0.0",
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {
-    "electron": "^30.0.6",
+    "electron": "^30.5.1",
     "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.duploader.suduploader",
-    "productName": "SU Duploader",
+    "appId": "com.dunite.sudunite",
+    "productName": "SU Dunite",
     "directories": {
-      "output": "dist" 
+      "output": "dist"
     },
     "files": [
       "main.js",
@@ -43,11 +46,18 @@
       "icon": "assets/linux/icon_512x512.png"
     },
     "win": {
-      "target": [
-        "nsis",
-        "portable"
-      ],
+      "target": "nsis",
       "icon": "assets/win/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "assets/win/icon.ico",
+      "uninstallerIcon": "assets/win/icon.ico",
+      "uninstallDisplayName": "Uninstall SU Dunite",
+      "runAfterFinish": true
     },
     "mac": {
       "target": [

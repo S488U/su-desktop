@@ -1,112 +1,145 @@
 const path = require("path");
-const { app, BrowserWindow, Menu, dialog } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain } = require("electron");
+const fs = require("fs");
+const https = require("https");
 
-let windowCounters = {
-  suWindow: 0,
-  duploaderWindow: 0,
-  projectSpotWindow: 0,
-  surveyWindow: 0,
-  CTFWindow: 0,
-  base64Window: 0
-};
+let mainWindow;
 
-const MAX_INSTANCES = 4;
+function createWindow() {
+    mainWindow = new BrowserWindow({
+        title: 'Dunite Application',
+        width: 1000,
+        height: 700,
+        icon: path.join(__dirname, 'assets', 'win', 'icon.ico'),
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            enableRemoteModule: false,
+        }
+    });
 
-function createWindow(type, url, title) {
-  if (windowCounters[type] >= MAX_INSTANCES) {
-    dialog.showErrorBox("Window Limit Reached", `You have opened enough ${title} windows.`);
-    return;
-  }
+    mainWindow.loadURL('https://su.dunite.tech');
 
-  const window = new BrowserWindow({
-    title: title,
-    width: 1000,
-    height: 700,
-    icon: path.join(__dirname, 'assets', 'win', 'icon.ico')
-  });
+    mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+        console.error(`Failed to load ${validatedURL}: ${errorDescription} (${errorCode})`);
+        mainWindow.loadFile(path.join(__dirname, 'assets', 'error.html'));
+    });
 
-  window.loadURL(url);
-  window.on('closed', () => {
-    windowCounters[type]--;
-  });
+    mainWindow.webContents.on('did-finish-load', () => {
+        checkForUpdates();
+    });
 
-  windowCounters[type]++;
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
 }
 
-// Create the SU Duploader Main Window
-function createSuWindow() {
-  createWindow('suWindow', 'https://su.duploader.tech', 'SU Study Material | Duploader');
+function loadUrl(url, title) {
+    mainWindow.setTitle(title);
+    mainWindow.loadURL(url);
 }
 
-// Create Duploader Window
-function createDuploadertWindow() {
-  createWindow('duploaderWindow', 'https://duploader.tech', 'Duploader');
+function loadFile(filePath) {
+    mainWindow.loadFile(filePath);
 }
 
-// Create Project Spot Window
-function createProjectSpotWindow() {
-  createWindow('projectSpotWindow', 'https://projectspot.duploader.tech', 'Project Spot | Duploader');
+function createUpdateDialog() {
+    let updateWindow = new BrowserWindow({
+        width: 400,
+        height: 300,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        },
+        frame: false,
+        parent: mainWindow,
+        modal: true
+    });
+
+    updateWindow.loadFile('updateDialog.html');
+
+    updateWindow.on('closed', () => {
+        updateWindow = null;
+    });
 }
 
-// Create Survey Window
-function createSurveyWindow() {
-  createWindow('surveyWindow', 'https://survey.duploader.tech', 'Survey | Duploader');
+function checkForUpdates() {
+    https.get('https://dunite.tech/app/su-dunite-app.json', (res) => {
+        let data = '';
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+        res.on('end', () => {
+            try {
+                const versionInfo = JSON.parse(data);
+                const currentVersion = app.getVersion();
+                if (versionInfo.version !== currentVersion) {
+                    createUpdateDialog();
+                }
+            } catch (error) {
+                console.error('Failed to parse version info:', error.message);
+            }
+        });
+    }).on('error', (err) => {
+        console.error('Error checking for updates:', err.message);
+    });
 }
 
-// Create CTF Window
-function createCTFWindow() {
-  createWindow('CTFWindow', 'https://ctf.duploader.tech/', 'CTF | Duploader');
-}
+ipcMain.on('update-app', () => {
+    downloadUpdate();
+});
 
-// Create Base64 Window
-function createBase64Window() {
-  createWindow('base64Window', 'https://ctf.duploader.tech/Base64/', 'Base64 | Duploader');
+ipcMain.on('update-later', () => {
+    console.log("User chose to update later.");
+});
+
+function downloadUpdate() {
+    const file = fs.createWriteStream(path.join(app.getPath("userData"), 'dunite.exe'));
+
+    https.get('https://dunite.tech/app/dunite.exe', (response) => {
+        response.pipe(file);
+
+        file.on('finish', () => {
+            file.close(() => {
+                mainWindow.webContents.send('update-status', 'Download completed. Restarting the application...');
+                app.quit();
+            });
+        });
+    }).on('error', (err) => {
+        fs.unlinkSync(path.join(app.getPath("userData"), 'dunite.exe'));
+        console.error('Error downloading the update:', err.message);
+    });
 }
 
 const menu = [
-  {
-    role: "fileMenu",
-  },
-  {
-    label: "Duploader",
-    click: createDuploadertWindow,
-  },
-  {
-    label: "CTF",
-    click: createCTFWindow,
-  },
-  {
-    label: "Base64",
-    click: createBase64Window,
-  },
-  {
-    label: "Other Pages",
-    submenu: [
-      {
-        label: "Project Spot",
-        click: createProjectSpotWindow,
-      },
-      {
-        label: "Survey",
-        click: createSurveyWindow,
-      },
-    ],
-  },
+    { role: "fileMenu" },
+    { label: "Dunite", click: () => loadUrl('https://dunite.tech', 'Dunite') },
+    { label: "Study Material", click: () => loadUrl('https://su.dunite.tech', 'SU Study Material | Dunite') },
+    { label: "CTF", click: () => loadUrl('https://ctf.dunite.tech/', 'CTF | Dunite') },
+    { label: "Base64", click: () => loadUrl('https://ctf.dunite.tech/Base64/', 'Base64 | Dunite') },
+    {
+        label: "Other Pages",
+        submenu: [
+            { label: "Project Spot", click: () => loadUrl('https://projectspot.dunite.tech', 'Project Spot | Dunite') },
+            { label: "Survey", click: () => loadUrl('https://survey.dunite.tech', 'Survey | Dunite') },
+        ],
+    },
+    {
+        label: "About",
+        click: () => loadFile(path.join(__dirname, 'assets', 'about.html'))
+    }
 ];
 
 const menuTemplate = Menu.buildFromTemplate(menu);
 Menu.setApplicationMenu(menuTemplate);
 
-app.on('ready', createSuWindow);
-
+app.on('ready', createWindow);
 app.on('window-all-closed', () => {
-  if (!app.isQuiting) {
-    app.quit();
-  }
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
-
 app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createSuWindow();
-  }
+    if (mainWindow === null) {
+        createWindow();
+    }
 });
