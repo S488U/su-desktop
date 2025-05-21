@@ -18,7 +18,7 @@ function createWindow() {
         }
     });
 
-    mainWindow.loadURL('https://su.dunite.tech');
+    mainWindow.loadURL('https://dunite.tech');
 
     mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
         console.error(`Failed to load ${validatedURL}: ${errorDescription} (${errorCode})`);
@@ -63,7 +63,7 @@ function createUpdateDialog() {
 }
 
 function checkForUpdates() {
-    https.get('https://dunite.tech/app/su-dunite-app.json', (res) => {
+    https.get('https://blog.dunite.tech/app/su-dunite-app.json', (res) => {
         let data = '';
         res.on('data', (chunk) => {
             data += chunk;
@@ -95,7 +95,7 @@ ipcMain.on('update-later', () => {
 function downloadUpdate() {
     const file = fs.createWriteStream(path.join(app.getPath("userData"), 'dunite.exe'));
 
-    https.get('https://dunite.tech/app/dunite.exe', (response) => {
+    https.get('https://blog.dunite.tech/app/dunite.exe', (response) => {
         response.pipe(file);
 
         file.on('finish', () => {
@@ -112,8 +112,8 @@ function downloadUpdate() {
 
 const menu = [
     { role: "fileMenu" },
-    { label: "Dunite", click: () => loadUrl('https://dunite.tech', 'Dunite') },
-    { label: "Study Material", click: () => loadUrl('https://su.dunite.tech', 'SU Study Material | Dunite') },
+    { label: "Dunite", click: () => loadUrl('https://blog.dunite.tech', 'Dunite') },
+    { label: "Study Material", click: () => loadUrl('https://dunite.tech', 'SU Study Material | Dunite') },
     { label: "CTF", click: () => loadUrl('https://ctf.dunite.tech/', 'CTF | Dunite') },
     { label: "Base64", click: () => loadUrl('https://ctf.dunite.tech/Base64/', 'Base64 | Dunite') },
     {
