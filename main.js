@@ -1,32 +1,66 @@
+const { app, BrowserWindow, Menu, ipcMain, shell, nativeTheme } = require("electron");
 const path = require("path");
-const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const fs = require("fs");
-const https = require("https");
+const os = require("os");
+const axios = require("axios");
+
+// Force Dark Theme for native interfaces (Menus, etc.)
+nativeTheme.themeSource = 'dark';
+
+// --- Configuration ---
+const APP_URL = 'https://plexaur.com';
+const VERSION_JSON_URL = 'https://blog.plexaur.com/app/package-version.json';
 
 let mainWindow;
+let updateWindow;
+let updateUrl = ''; // Stores the URL found in the JSON
 
+// --- Helpers ---
+function getIconPath() {
+    if (process.platform === 'win32') {
+        return path.join(__dirname, 'assets', 'win', 'icon.ico');
+    }
+    // Linux/Mac usually prefer png or icns
+    if (process.platform === 'darwin') {
+        return path.join(__dirname, 'assets', 'mac', 'icon.icns');
+    }
+    return path.join(__dirname, 'assets', 'linux', 'icon.png'); // Fallback or specific linux path
+}
+
+// --- 1. Main Window ---
 function createWindow() {
     mainWindow = new BrowserWindow({
-        title: 'Dunite Application',
-        width: 1000,
-        height: 700,
-        icon: path.join(__dirname, 'assets', 'win', 'icon.ico'),
+        title: 'Plexaur Application',
+        width: 1200,
+        height: 800,
+        show: false, // Don't show until ready
+        icon: getIconPath(),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
-            enableRemoteModule: false,
+            nodeIntegration: false,
         }
     });
 
-    mainWindow.loadURL('https://dunite.tech');
+    mainWindow.loadURL(APP_URL);
 
-    mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
-        console.error(`Failed to load ${validatedURL}: ${errorDescription} (${errorCode})`);
-        mainWindow.loadFile(path.join(__dirname, 'assets', 'error.html'));
+    // Show window only when content is ready
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show();
+        checkForUpdates(); // Check for updates only once when window is ready
     });
 
-    mainWindow.webContents.on('did-finish-load', () => {
-        checkForUpdates();
+    // Open external links in Default Browser (Chrome/Firefox)
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        if (url.startsWith('http')) {
+            shell.openExternal(url);
+        }
+        return { action: 'deny' };
+    });
+
+    mainWindow.webContents.on('did-fail-load', () => {
+        mainWindow.loadFile(path.join(__dirname, 'assets', 'error.html'));
+        mainWindow.show(); // Ensure window shows even if loading fails
     });
 
     mainWindow.on('closed', () => {
@@ -34,112 +68,167 @@ function createWindow() {
     });
 }
 
-function loadUrl(url, title) {
-    mainWindow.setTitle(title);
-    mainWindow.loadURL(url);
-}
-
-function loadFile(filePath) {
-    mainWindow.loadFile(filePath);
-}
-
+// --- 2. Update Dialog ---
 function createUpdateDialog() {
-    let updateWindow = new BrowserWindow({
-        width: 400,
-        height: 300,
+    if (updateWindow) return; // Prevent duplicates
+
+    updateWindow = new BrowserWindow({
+        width: 450,
+        height: 350,
+        resizable: false,
+        parent: mainWindow,
+        modal: true,
+        frame: false,
+        transparent: true, // Required for rounded corners/transparency
+        show: false, // Don't show until ready
+        icon: getIconPath(),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-        },
-        frame: false,
-        parent: mainWindow,
-        modal: true
+            contextIsolation: true,
+            nodeIntegration: false
+        }
     });
 
-    updateWindow.loadFile('updateDialog.html');
+    // Use absolute path to ensure it loads correctly in packaged app
+    updateWindow.loadFile(path.join(__dirname, 'updateDialog.html'));
+
+    updateWindow.once('ready-to-show', () => {
+        updateWindow.show();
+    });
 
     updateWindow.on('closed', () => {
         updateWindow = null;
     });
 }
 
-function checkForUpdates() {
-    https.get('https://blog.dunite.tech/app/su-dunite-app.json', (res) => {
-        let data = '';
-        res.on('data', (chunk) => {
-            data += chunk;
-        });
-        res.on('end', () => {
-            try {
-                const versionInfo = JSON.parse(data);
-                const currentVersion = app.getVersion();
-                if (versionInfo.version !== currentVersion) {
-                    createUpdateDialog();
-                }
-            } catch (error) {
-                console.error('Failed to parse version info:', error.message);
-            }
-        });
-    }).on('error', (err) => {
-        console.error('Error checking for updates:', err.message);
-    });
-}
+// --- 3. IPC Handlers ---
+
+ipcMain.on('update-later', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (win) win.close();
+});
+
+ipcMain.handle('open-external', async (event, url) => {
+    await shell.openExternal(url);
+});
 
 ipcMain.on('update-app', () => {
-    downloadUpdate();
+    // Platform Specific Logic
+    if (process.platform === 'win32') {
+        // Windows: Auto-download and install
+        downloadUpdateForWindows();
+    } else {
+        // Linux (Debian, Arch, AppImage): Open Browser
+        // We cannot reliably know if they need .deb, .pacman or .AppImage automatically
+        // so we send them to the download page.
+        if (updateUrl) {
+            shell.openExternal(updateUrl);
+        }
+        if (updateWindow) updateWindow.close();
+    }
 });
 
-ipcMain.on('update-later', () => {
-    console.log("User chose to update later.");
-});
+// --- 4. Update Logic ---
 
-function downloadUpdate() {
-    const file = fs.createWriteStream(path.join(app.getPath("userData"), 'dunite.exe'));
+async function checkForUpdates() {
+    try {
+        const response = await axios.get(VERSION_JSON_URL);
+        const versionInfo = response.data;
+        const currentVersion = app.getVersion();
 
-    https.get('https://blog.dunite.tech/app/dunite.exe', (response) => {
-        response.pipe(file);
-
-        file.on('finish', () => {
-            file.close(() => {
-                mainWindow.webContents.send('update-status', 'Download completed. Restarting the application...');
-                app.quit();
-            });
-        });
-    }).on('error', (err) => {
-        fs.unlinkSync(path.join(app.getPath("userData"), 'dunite.exe'));
-        console.error('Error downloading the update:', err.message);
-    });
+        if (versionInfo.version !== currentVersion) {
+            // Store the URLs based on platform
+            if (process.platform === 'win32') {
+                updateUrl = versionInfo.win_url;
+            } else {
+                updateUrl = versionInfo.url;
+            }
+            createUpdateDialog();
+        }
+    } catch (error) {
+        console.error('Update Check Error:', error.message);
+    }
 }
 
-const menu = [
+async function downloadUpdateForWindows() {
+    if (updateWindow) updateWindow.webContents.send('update-status', 'Downloading update...');
+
+    const destPath = path.join(os.tmpdir(), 'plexaur-setup.exe');
+
+    try {
+        const response = await axios({
+            method: 'get',
+            url: updateUrl,
+            responseType: 'stream'
+        });
+
+        const writer = fs.createWriteStream(destPath);
+        response.data.pipe(writer);
+
+        writer.on('finish', () => {
+            if (updateWindow) updateWindow.webContents.send('update-status', 'Installing...');
+            // Run the EXE
+            shell.openPath(destPath).then(() => {
+                setTimeout(() => app.quit(), 1000);
+            });
+        });
+
+        writer.on('error', (err) => {
+            console.error("File write error", err);
+            if (updateWindow) updateWindow.webContents.send('update-status', 'Error saving file.');
+        });
+
+    } catch (error) {
+        console.error("Download error", error);
+        if (updateWindow) updateWindow.webContents.send('update-status', 'Error downloading.');
+    }
+}
+
+// --- 5. Menus ---
+function loadUrl(url) {
+    if (mainWindow) mainWindow.loadURL(url);
+}
+
+const menuTemplate = [
     { role: "fileMenu" },
-    { label: "Dunite", click: () => loadUrl('https://blog.dunite.tech', 'Dunite') },
-    { label: "Study Material", click: () => loadUrl('https://dunite.tech', 'SU Study Material | Dunite') },
-    { label: "CTF", click: () => loadUrl('https://ctf.dunite.tech/', 'CTF | Dunite') },
-    { label: "Base64", click: () => loadUrl('https://ctf.dunite.tech/Base64/', 'Base64 | Dunite') },
+    { label: "Plexaur", click: () => loadUrl('https://plexaur.com') },
+    { label: "Blog", click: () => loadUrl('https://blog.plexaur.com') },
+    { label: "CTF", click: () => loadUrl('https://ctf.plexaur.com/') },
     {
-        label: "Other Pages",
+        label: "Tools",
         submenu: [
-            { label: "Project Spot", click: () => loadUrl('https://projectspot.dunite.tech', 'Project Spot | Dunite') },
-            { label: "Survey", click: () => loadUrl('https://survey.dunite.tech', 'Survey | Dunite') },
+            { label: "Base64", click: () => loadUrl('https://ctf.plexaur.com/base64') },
+            { label: "Edit Images", click: () => loadUrl('https://ctf.plexaur.com/invert') },
+            { label: "PCAP/CAP inspector", click: () => loadUrl('https://ctf.plexaur.com/pcap') },
+            { label: "OCR", click: () => loadUrl('https://ocr.plexaur.com/') },
+            { label: "Steganography", click: () => loadUrl('https://ctf.plexaur.com/steg') },
+            { label: "PDF Merger", click: () => loadUrl('https://pdf.plexaur.com/') },
         ],
     },
     {
-        label: "About",
-        click: () => loadFile(path.join(__dirname, 'assets', 'about.html'))
+        label: "Help",
+        submenu: [
+            {
+                label: "About",
+                click: () => mainWindow.loadFile(path.join(__dirname, 'assets', 'about.html'))
+            }
+        ]
     }
 ];
 
-const menuTemplate = Menu.buildFromTemplate(menu);
-Menu.setApplicationMenu(menuTemplate);
+const menu = Menu.buildFromTemplate(menuTemplate);
+Menu.setApplicationMenu(menu);
 
+// --- 6. App Lifecycle ---
 app.on('ready', createWindow);
+
 app.on('window-all-closed', () => {
+    // On Mac, it's common to keep app active, but for this app we quit
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
+
 app.on('activate', () => {
-    if (mainWindow === null) {
-        createWindow();
-    }
+    if (mainWindow === null) createWindow();
 });
