@@ -1,20 +1,21 @@
-const { contextBridge, ipcRenderer, shell, remote } = require('electron');
+const { contextBridge, ipcRenderer, shell } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
-    send: (channel, data) => {
-        
-        const validChannels = ['update-app', 'update-later'];
-        if (validChannels.includes(channel)) {
-            ipcRenderer.send(channel, data);
-        }
-    },
-    receive: (channel, func) => {
-        const validChannels = ['update-status']; 
-        if (validChannels.includes(channel)) {
-            
-            ipcRenderer.on(channel, (event, ...args) => func(...args));
-        }
-    },
-    shell: shell,
-    remote: remote
+    // Action: Start Update
+    updateApp: () => ipcRenderer.send('update-app'),
+
+    // Action: Close/Later
+    updateLater: () => ipcRenderer.send('update-later'),
+
+    // Action: Open Browser Link
+    openExternal: (url) => ipcRenderer.invoke('open-external', url),
+
+    // Listener: Receive Status
+    onUpdateStatus: (callback) => {
+        const subscription = (event, message) => callback(message);
+        ipcRenderer.on('update-status', subscription);
+
+        // Return cleanup function to avoid memory leaks
+        return () => ipcRenderer.removeListener('update-status', subscription);
+    }
 });
