@@ -1,0 +1,106 @@
+:root {
+  --nav-bg: rgba(15, 23, 42, 0.95);
+  /* Dark Slate with opacity */
+  --nav-text: #94a3b8;
+  /* Muted Slate */
+  --nav-hover: #38bdf8;
+  /* Sky Blue */
+  --nav-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Navbar Container */
+.navbar-modern {
+  background-color: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  /* Glass effect */
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+  padding: 0.8rem 0;
+  transition: all 0.3s ease;
+}
+
+/* Brand Style */
+.navbar-brand-text {
+  font-weight: 800;
+  font-size: 1.25rem;
+  background: linear-gradient(to right, #fff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+  vertical-align: middle;
+}
+
+/* Navigation Links */
+.nav-link-custom {
+  color: var(--nav-text) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom.active {
+  color: var(--nav-hover) !important;
+  transform: translateY(-2px);
+}
+
+/* Compiler CTA Button */
+.btn-compiler {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white !important;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-compiler:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  color: white !important;
+}
+
+/* Dropdown Styling */
+.dropdown-menu-dark-custom {
+  background-color: #1e293b;
+  border: 1px solid var(--nav-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+  color: var(--nav-text);
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(56, 189, 248, 0.1);
+  color: var(--nav-hover);
+}
+
+/* Mobile Toggler */
+.navbar-toggler {
+  border: 1px solid var(--nav-border);
+  color: white;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Offcanvas (Mobile Menu) */
+.offcanvas-dark {
+  background-color: #0f172a;
+  color: white;
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid var(--nav-border);
+}
+
+.btn-close-white {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}

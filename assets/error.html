@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,228 +6,273 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 | Page Not Found</title>
 
-    <script src="https://dunite.tech/assets/script/navbar.js"></script>
-    <link rel="shortcut icon" type="image/png" sizes="16x16" href="https://blog.dunite.tech/assets/favicon/android-chrome-192x192.png">
-    <link rel="stylesheet" href="./assets/style/scrollbar.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RZ7EVD4TN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- CSS & Fonts -->
+    <script src="../assets/script/navbar.js"></script>
+    <link rel="shortcut icon" type="image/png" sizes="16x16" href="/favicon.ico">
+    <link rel="stylesheet" href="./css/scrollbar.css">
 
-  gtag('config', 'G-9RZ7EVD4TN');
-</script></head>
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/error.css">
+    <link rel="stylesheet" href="./css/footer.css">
+</head>
 
 <body>
-    <nav class="navbar bg-body-tertiary fs-5">
-    <div class="container d-flex flex-row ">
-        <a class="navbar-brand" href="https://dunite.tech">
-            <img src="https://dunite.tech/assets/svg/logo.png" alt="Logo" width="40" height="40"> SU Study Materials
-        </a>
-        <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="https://dunite.tech/pages/about.php">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://dunite.tech/pages/bca.php">BCA</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link user-login" href="https://dunite.tech/pages/mca.php">MCA</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link user-login" href="https://dunite.tech/pages/ethical-hacking.php">EH Course</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link user-login" href="https://dunite.tech/pages/ibm.php">IBM</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link user-login" href="https://dunite.tech/pages/upload.php">Upload</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active p-2 py-1 mt-1" aria-current="page" href="https://dunite.tech/pages/compiler.php" style="border: 1px solid black; border-radius: 7px;">Compiler</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link userShow" href="https://dunite.tech/assets/pages/user.html" aria-disabled="true"></a>
-            </li>
-        </ul>
-        <button class="btn btn-outline-dark navbtntoggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" style="display: none;" aria-controls="offcanvasExample">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-    </div>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-modern">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                <img src="https://plexaur.com/assets/svg/plexaur.png" alt="Logo" width="35" height="35"
+                    class="d-inline-block align-text-top">
+                <span class="navbar-brand-text">SU Study Materials</span>
+            </a>
 
-    <div class="offcanvas offcanvas-start " tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                aria-controls="mobileMenu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Desktop Menu -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+
+                    <!-- Search Link (New) -->
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/engine">
+                            <i class="fa-solid fa-magnifying-glass"></i> Search
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/about">About</a>
+                    </li>
+
+                    <!-- Dropdown for Courses to save space -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-link-custom dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Courses
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-dark-custom">
+                            <li><a class="dropdown-item" href="https://plexaur.com/pages/bca">BCA</a></li>
+                            <li><a class="dropdown-item" href="https://plexaur.com/pages/mca">MCA</a></li>
+                            <li><a class="dropdown-item" href="https://plexaur.com/pages/ibm">IBM</a></li>
+                            <li><a class="dropdown-item" href="https://plexaur.com/pages/ethical-hacking">EH Course</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom user-login"
+                            href="https://plexaur.com/pages/upload">Upload</a>
+                    </li>
+
+                    <!-- User Profile (Hidden if empty, handled by JS) 
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom userShow" href="./assets/pages/user.html"></a>
+                </li> -->
+
+                    <!-- Compiler CTA -->
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a class="nav-link btn-compiler" href="https://plexaur.com/pages/compiler">
+                            <i class="fa-solid fa-code me-1"></i> Compiler
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Offcanvas Menu -->
+    <div class="offcanvas offcanvas-start offcanvas-dark" tabindex="-1" id="mobileMenu"
+        aria-labelledby="mobileMenuLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel"><a class="navbar-brand" href="https://dunite.tech">
-                    <img src="https://dunite.tech/assets/favicon/android-chrome-512x512.png?v=1704904973" alt="Bootstrap" width="30" height="24"> SU Study Materials
-                </a></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <h5 class="offcanvas-title d-flex align-items-center gap-2" id="mobileMenuLabel">
+                <img src="/assets/svg/plexaur.png" alt="Logo" width="30" height="30">
+                <span class="navbar-brand-text fs-5">Menu</span>
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <ul class="nav flex-column">
+            <ul class="nav flex-column gap-2">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="https://dunite.tech">Home</a>
+                    <a class="nav-link nav-link-custom" href="/">Home</a>
                 </li>
+
+                <!-- Search Link Mobile (New) -->
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="https://dunite.tech/pages/about.php">About</a>
+                    <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/engine">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i> Search
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dunite.tech/pages/bca.php">BCA</a>
+                    <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/about">About</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link user-login" href="https://dunite.tech/pages/mca.php">MCA</a>
+
+                <hr class="border-secondary my-2">
+                <div class="text-white-50 small text-uppercase fw-bold mb-2 ps-2">Courses</div>
+
+                <li class="nav-item ps-2">
+                    <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/bca">BCA</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link user-login" href="https://dunite.tech/pages/ibm.php">IBM</a>
+                <li class="nav-item ps-2">
+                    <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/mca">MCA</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link user-login" href="https://dunite.tech/pages/ethical-hacking.php">EH Course</a>
+                <li class="nav-item ps-2">
+                    <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/ibm">IBM</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link user-login" href="https://dunite.tech/pages/upload.php">Upload</a>
+                <li class="nav-item ps-2">
+                    <a class="nav-link nav-link-custom" href="https://plexaur.com/pages/ethical-hacking">EH Course</a>
                 </li>
+
+                <hr class="border-secondary my-2">
+
                 <li class="nav-item">
-                    <a class="nav-link userShow" href="https://dunite.tech/assets/pages/user.html" aria-disabled="true"></a>
+                    <a class="nav-link nav-link-custom user-login" href="https://plexaur.com/pages/upload">Upload</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active p-2 py-1 mt-1" aria-current="page" href="https://dunite.tech/pages/compiler.php" style="border: 1px solid black; border-radius: 7px;">Compiler</a>
+                <li class="nav-item mt-3">
+                    <a class="nav-link btn-compiler text-center justify-content-center d-flex"
+                        href="https://plexaur.com/pages/compiler">
+                        <i class="fa-solid fa-code me-2"></i> Open Compiler
+                    </a>
                 </li>
             </ul>
         </div>
     </div>
-</nav>
 
-<style>
-    .nav-link {
-        color: black !important;
-        transform: translateY(0px);
-        transition: color 250ms ease-in, transform 250ms ease-in;
-    }
+    <!-- Load FontAwesome if not already loaded in header -->
+    <script src="https://kit.fontawesome.com/4145934b9b.js" crossorigin="anonymous"></script>
 
-    .nav-link:hover {
-        color: #292920 !important;
-        transform: translateY(-3px);
-    }
-</style>
-
-<script src="https://kit.fontawesome.com/4145934b9b.js" crossorigin="anonymous"></script>
-    <div class="container d-flex flex-column justify-content-center align-items-center gap-5 mt-5 p-5 p-md-5" style="min-height: 70vh; height:auto;">
-        <img src="https://dunite.tech/assets/svg/warning.svg" />
-        <h1 class="text-capitalize text-center error">OOPs ⊙⁠﹏⁠⊙</h1>
-        <p class="err-p text-capitalize text-center error">The page you are looking for could not be found.</p>
-        <a href="https://dunite.tech" class="btn btn-dark">Go back</a>
-      </div>
-
-    <style>
-        .container img {
-            width: 20%;
-        }
-
-        .error {
-            font-size: 70px;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-
-        .err-p {
-            font-size: 24px;
-        }
-
-        @media screen and (max-width: 600px) {
-            .container img {
-                width: 50%;
-            }
-
-        }
-    </style>
-
-
-
-    <footer>
-    <div class="fluid-container d-flex flex-column bg-dark text-white ">
-        <div class="container d-flex flex-column flex-md-row pt-5 pb-0 gap-4">
-            <div class="container d-flex flex-row justify-content-center align-items-center">
-                <h5>&copy; <span id="getDate"></span> SU Study Materials</h5>
+    <main>
+        <div class="error-card">
+            <!-- Animated Icon -->
+            <div class="icon-box">
+                <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <div class="container d-flex flex-column justify-content-md-center  align-items-md-center justify-content-start m-md-auto">
-                <ul type="none">
-                    <li><a class="link text-decoration-none hover-link" href="https://dunite.tech">dunite</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="https://survey.dunite.tech">Survey</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="https://dunite.tech/contact/">Contact Us</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="https://www.instagram.com/l_e_sims/">l_e_sims</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="https://dunite.tech/pages/upload.php">Upload</a></li>
-                </ul>
-            </div>
-            <div class="container d-flex flex-column justify-content-md-center  align-items-md-center justify-content-start m-md-auto text-left">
-                <ul type="none">
-                    <li><a class="link text-decoration-none hover-link" href="../../pages/bca.php">BCA</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="../../pages/mca.php">MCA</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="../../pages/ibm.php">IBM</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="../../pages/bba.php">BBA</a></li>
-                    <li><a class="link text-decoration-none hover-link" href="../../pages/Mba.php">MBA</a></li>
-                </ul>
 
+            <!-- Big 404 Text -->
+            <div class="error-code">404</div>
+
+            <h1 class="error-heading">Page Not Found</h1>
+            <p class="error-desc">
+                Oops! The page you are looking for seems to have gone on a coffee break or doesn't exist.
+            </p>
+
+            <a href="/" class="btn-home">
+                <i class="fa-solid fa-house"></i> Return Home
+            </a>
+        </div>
+    </main>
+
+    <?php
+    include "../assets/components/checkApprove.php";
+    include "../assets/components/scripts.php";
+    ?>
+
+    <footer class="footer-modern pt-5 pb-4">
+        <div class="container">
+            <!-- Main Row -->
+            <div class="row gy-5 justify-content-between">
+
+                <!-- BRAND COLUMN (Centered on Mobile, Left on Desktop) -->
+                <div class="col-lg-4 col-md-12 text-center text-lg-start">
+                    <div class="d-flex flex-column align-items-center align-items-lg-start">
+                        <span class="footer-brand">SU Study Materials</span>
+                        <p class="mb-4 text-center text-lg-start" style="max-width: 320px;">
+                            Empowering students with accessible resources for a brighter academic future.
+                        </p>
+                        <small class="text-gray">&copy;
+                            <script>document.write(new Date().getFullYear())</script> All Rights Reserved.
+                        </small>
+                    </div>
+                </div>
+
+                <!-- LINKS WRAPPER -->
+                <!-- We use col-6 for mobile to keep them side-by-side, but add padding to align visually -->
+                <div class="col-6 col-lg-2 col-md-4 footer-nav ps-4 ps-lg-0 text-start">
+                    <h5 class="footer-heading">Resources</h5>
+                    <ul>
+                        <li><a href="https://plexaur.com">Plexaur</a></li>
+                        <li><a href="https://plexaur.com/pages/feedback">Feedback</a></li>
+                        <li><a href="https://shahabas.vercel.app/#contact">Contact Us</a></li>
+                        <li><a href="https://plexaur.com/pages/upload">Upload</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-2 col-md-4 footer-nav ps-4 ps-lg-0 text-start">
+                    <h5 class="footer-heading">Courses</h5>
+                    <ul>
+                        <li><a href="https://plexaur.com/pages/bca">BCA</a></li>
+                        <li><a href="https://plexaur.com/pages/mca">MCA</a></li>
+                        <li><a href="https://plexaur.com/pages/ibm">IBM</a></li>
+                        <li><a href="https://plexaur.com/pages/bba">BBA</a></li>
+                        <li><a href="https://plexaur.com/pages/Mba">MBA</a></li>
+                    </ul>
+                </div>
+
+                <!-- SOCIALS COLUMN (Centered on Mobile, Left on Desktop) -->
+                <div class="col-lg-3 col-md-12 text-center text-lg-start">
+                    <h5 class="footer-heading">Connect</h5>
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start mb-4">
+                        <!-- YouTube -->
+                        <a href="https://www.youtube.com/@dunite_tech" class="social-icon" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                        </a>
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/company/dunite/" class="social-icon" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                            </svg>
+                        </a>
+                        <!-- WhatsApp -->
+                        <a href="https://whatsapp.com/channel/0029VaLE3xEL2ATpQA9eef2v" class="social-icon"
+                            aria-label="WhatsApp">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.992 1.992 4.735-1.425z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="https://www.instagram.com/l_e_sims/"
+                            class="text-decoration-none small text-white-50 hover-link">
+                            Also on Instagram: <span class="text-white">@l_e_sims</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- BOTTOM SIGNATURE -->
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0 text-uppercase" style="font-size: 0.75rem; letter-spacing: 2px; color: #64748b;">
+                        Powered By
+                    </p>
+                    <div class="mt-1">
+                        <a id="bx12" href="https://plexaur.com" class="powered-by">plexaur</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr>
-        <div class="container-fluid" style="height: 25px;">
-            <h5 style="transform: translateY(-5px);" class=" text-center ">Powered by <span><a  id="bx12" href="https://dunite.tech">dunite</a></span></h5>
-        </div>
-        <hr>
-        <div class="container d-flex flex-column justify-content-center align-items-center py-2">
-            <p class="text-capitalize">Follow us on social media:</p>
-            <div class="container d-flex flex-row text-center gap-4 justify-content-center align-items-center">
-                <a class="link text-decoration-none hover-link" href="https://www.youtube.com/@dunite_tech">Youtube</a>
-                <a class="link text-decoration-none hover-link" href="https://www.linkedin.com/company/dunite/">Linkedin</a>
-                <a class="link text-decoration-none hover-link" href="https://whatsapp.com/channel/0029VaLE3xEL2ATpQA9eef2v">Whatsapp</a>
-            </div>
-        </div>
-    </div>
-</footer>
+    </footer>
 
-<script>
-    let date = new Date();
-    let year = date.getFullYear();
-    document.getElementById("getDate").innerText = year;
-</script>
-
-<style>
-    footer a {
-        color: #ddd !important;
-    }
-
-    .hover-link:hover {
-        text-decoration: underline !important;
-    }
-
-    @font-face {
-        font-family: 'Tango';
-        src: url(/assets/fonts/TangoBT.ttf);
-        font-weight: 100;
-        font-style: normal;
-    }
-
-    #bx12 {
-        font-family: 'Tango', sans-serif;
-        font-size: 28px;
-    }
-</style><div id="toast" class="container border border-warning bg-white z-3 p-3 rounded position-fixed" style="display:none; width: 300px; bottom: 20px; right: 20px;">
-    <p>By entering you are agreeing with our terms and conditions. Please read this <a href="../../pages/about.php">Warning</a>.</p>
-    <div class="fluid-container d-flex justify-content-center gap-1">
-        <button id="close" class="btn btn-dark flex-fill" type="button">Close</button>
-        <button id="agree" class="btn btn-dark flex-fill" type="button">Agree</button>
-    </div>
-</div>
-
-<script>console.log("Invalid Requests")</script><script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <script src="../assets/script/checkAccepted.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-
 </body>
 
 </html>

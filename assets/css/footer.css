@@ -1,0 +1,120 @@
+:root {
+  --footer-bg: #0f172a;
+  --footer-text: #94a3b8;
+  --footer-hover: #38bdf8;
+  --footer-heading: #f8fafc;
+}
+
+@font-face {
+  font-family: "Tango";
+  src: url("../fonts/TangoBT.ttf");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+.footer-modern {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
+}
+
+/* Top decorative gradient border */
+.footer-modern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+}
+
+.footer-heading {
+  color: var(--footer-heading);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+}
+
+.footer-brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #fff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav li {
+  margin-bottom: 0.6rem;
+}
+
+.footer-nav a {
+  color: var(--footer-text);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.footer-nav a:hover {
+  color: var(--footer-hover);
+  transform: translateX(5px);
+}
+
+.social-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-icon:hover {
+  background: var(--footer-hover);
+  border-color: var(--footer-hover);
+  transform: translateY(-3px) scale(1.1);
+  color: #0f172a;
+}
+
+.social-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.powered-by {
+  font-family: "Tango", cursive;
+  font-size: 1.8rem;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.powered-by:hover {
+  opacity: 0.8;
+  color: #fff;
+}
+
+.footer-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 3rem 0;
+}
