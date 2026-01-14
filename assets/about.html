@@ -4,114 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About SU Dunite</title>
-    <style>
-        :root {
-            background-color: rgb(0, 0, 0);
-        }
-
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
-        body,
-        main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: rgb(0, 0, 0);
-            height: 100vh;
-            color: #fff;
-            position: relative;
-            width: 100%;
-        }
-
-        main {
-            width: max-content;
-            align-items: start;
-        }
-
-        .about {
-            font-size: 84px;
-            padding: 0;
-            text-shadow: 0px 0px 25px #000000;
-            position: relative;
-            z-index: 12;
-        }
-
-        img {
-            height: 17%;
-            transform: translateX(10px);
-            position: relative;
-            z-index: 12;
-        }
-
-        .about,
-        p {
-            margin-left: 35px !important;
-        }
-
-        p {
-            margin: 20px 0;
-            font-size: 18px;
-        }
-        .svg-repo {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        svg {
-            transform: translateY(-2px);
-        }
-        .name {
-            font-size: 20px;
-        }
-    </style>
+    <title>About Plexaur</title>
+    <link rel="stylesheet" href="./css/about.css">
 </head>
 
 <body>
+
+    <!-- Ambient Background -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
     <main>
+        <!-- Logo -->
+        <div class="logo-container">
+            <!-- Replace src with your actual logo path -->
+            <img src="../assets/images/logo.png" alt="Plexaur Logo"
+                onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #3b82f6, #8b5cf6)'">
+        </div>
 
-        <h1 class="about">Dunite</h1>
-        <p>Version 1.2.0</p>
-        <img src="../assets/banner.png" alt="">
-        <p>© 2023-<span id="dateFun"></span> Dunite.</p>
-        <p class="svg-repo">
-            <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" stroke="#ffffff">
-                <g id="SVGRepo_bgCarrier" stroke-width="0" />
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
-                <g id="SVGRepo_iconCarrier">
-                    <title>github [#ffffff]</title>
-                    <desc>Created with Sketch.</desc>
-                    <defs> </defs>
-                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <g id="Dribbble-Light-Preview" transform="translate(-140.000000, -7559.000000)" fill="#ffffff">
-                            <g id="icons" transform="translate(56.000000, 160.000000)">
-                                <path
-                                    d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399"
-                                    id="github-[#ffffff]"> </path>
-                            </g>
-                        </g>
-                    </g>
-                </g>
+        <h1>Plexaur</h1>
+        <div class="version">v1.2.1 • Stable</div>
+
+        <!-- Dev Info -->
+        <div class="dev-info">
+            <!-- Clean Github Icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
             </svg>
-            <span class="name">S488U | Ubbix1</span>
-        </p>
-    </main>
-    <script>
-        var item1 = document.getElementById("dateFun");
-        item1.innerText = new Date().getFullYear();
-    </script>
+            <span><a href="https://github.com/S488U">S488U</a> | <a href="https://github.com/Ubbix1">Ubbix1</a></span>
+        </div>
 
+        <!-- Action Links -->
+        <div class="links">
+            <a href="https://plexaur.com" class="external-link btn">
+                Website
+            </a>
+            <a href="https://github.com/s488u/su-desktop" class="external-link btn">
+                App Repo
+            </a>
+            <a href="https://github.com/s488u/college" class="external-link btn" style="grid-column: span 2;">
+                Study Materials
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2023 - <span id="year"></span> Plexaur. All rights reserved.
+        </footer>
+    </main>
+
+    <script>
+        // 1. Dynamic Year
+        document.getElementById('year').innerText = new Date().getFullYear();
+
+        // 2. Electron External Link Handler
+        // In standard Electron, <a href> opens in the app window (bad). 
+        // We need to tell the main process or system to open it in Chrome/Edge/Safari.
+        const links = document.querySelectorAll('.external-link');
+
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // If this is running in Electron (window.shell exists usually in preload)
+                // Otherwise falls back to standard behavior
+                if (window.electron && window.electron.openExternal) {
+                    e.preventDefault();
+                    window.electron.openExternal(link.href);
+                } else if (window.require) {
+                    // Older electron pattern
+                    e.preventDefault();
+                    const { shell } = window.require('electron');
+                    shell.openExternal(link.href);
+                }
+                // If standard browser, target="_blank" behavior applies implicitly or standard navigation
+            });
+        });
+    </script>
 </body>
 
 </html>
