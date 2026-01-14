@@ -1,29 +1,33 @@
-# SU Dunite
+# Plexaur Desktop
 
-### To run the app:
+The official desktop application for Plexaur.
 
-Git clone:
+## Download
 
-```
-git clone https://github.com/S488U/su-desktop.git
-```
+[Download the latest version here](https://blog.plexaur.com/app/download.html)
 
-Install the dependencies:
+## Development Setup
 
-```
-npm i
-```
+### specific dependencies
 
-To run the app:
+To install the dependencies, run:
 
-```
-npx electron .
+```bash
+npm install
 ```
 
-## Install the Desktop App Set up file:  [Download](https://dunite.tech/app/dunite.exe)
+### Running the App
 
-## To build the app
+To run the application in development mode:
 
+```bash
+npm start
 ```
+
+### Building the App
+
+To build the application for production (Windows, Linux):
+
+```bash
 npm run build
 ```
